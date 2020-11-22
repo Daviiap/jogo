@@ -1,6 +1,7 @@
 export default function createGame(width, height) {
   const state = {
-    players: {}
+    players: {},
+    totalConnections: 0
   }
   const observers = []
 

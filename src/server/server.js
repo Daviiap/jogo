@@ -19,7 +19,16 @@ game.subscribe((command) => {
 
 sockets.on('connection', (socket) => {
     const playerId = socket.id
-    console.log(`Player conectado com id: ${playerId}`)
+    const connectionsCount = Object.keys(sockets.sockets.server.engine.clients).length
+    console.log(`\n[!CONNECTED]: id-${playerId}`)
+
+    if (connectionsCount === 1) {
+        console.log(`Total de ${connectionsCount} pessoa conectada.`)
+    } else {
+        console.log(`Total de ${connectionsCount} pessoas conectadas.`)
+    }
+
+    game.setTotalConnections('sum')
 
     game.addPlayer({ id: playerId })
 
@@ -27,8 +36,14 @@ sockets.on('connection', (socket) => {
     socket.emit('config', game.configs)
 
     socket.on('disconnect', () => {
-        console.log(`Player desconectado com id: ${playerId}`)
+        console.log(`\n[!DISCONNECTED]: id-${playerId}`)
+        if (connectionsCount === 1) {
+            console.log(`Total de ${connectionsCount} pessoa conectada.`)
+        } else {
+            console.log(`Total de ${connectionsCount} pessoas conectadas.`)
+        }
 
+        game.setTotalConnections('sub')
         game.removePlayer({ id: playerId })
     })
 

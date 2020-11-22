@@ -3,10 +3,17 @@ import createKeyboardListener from './keyboardListener.js'
 import renderScreen from './screen.js'
 import createNetword from './network.js'
 
-const screen = document.getElementById("map")
+const screen = document.getElementById('map')
+const playersCount = document.getElementById('players-count')
 
 const game = createGame()
 const keyBoardListener = createKeyboardListener(document)
 
-const network = createNetword(screen, game, keyBoardListener, renderScreen)
+const network = createNetword(
+  screen,
+  game,
+  keyBoardListener,
+  renderScreen
+)
+
 network.start()

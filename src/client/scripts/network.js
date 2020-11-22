@@ -1,9 +1,12 @@
 export default function createNetwork(screen, game, keyBoardListener, renderScreen) {
   const socket = io()
 
+  const observers = []
+
   const functions = {
     connect: () => {
       const playerId = socket.id
+
       localStorage.setItem('player', playerId)
 
       keyBoardListener.clearObservers()
@@ -34,6 +37,20 @@ export default function createNetwork(screen, game, keyBoardListener, renderScre
       if (command.playerId !== localStorage.getItem('player')) {
         game.movePlayer(command)
       }
+    },
+    colision: (command) => {
+      const { player } = command
+      game.removePlayer({ id: player })
+    }
+  }
+
+  function subscribe(observerFunction) {
+    observers.push(observerFunction)
+  }
+
+  function notifyAll(event) {
+    for (const observer of observers) {
+      observer(event)
     }
   }
 
@@ -44,9 +61,11 @@ export default function createNetwork(screen, game, keyBoardListener, renderScre
     socket.on('add-player', functions['add-player'])
     socket.on('remove-player', functions['remove-player'])
     socket.on('move-player', functions['move-player'])
+    socket.on('colision', functions.colision)
   }
 
   return {
-    start
+    start,
+    subscribe
   }
 }

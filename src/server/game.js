@@ -1,6 +1,7 @@
 export default function createGame(width, height) {
   const state = {
-    players: {}
+    players: {},
+    totalConnections: 0
   }
   const observers = []
 
@@ -8,6 +9,14 @@ export default function createGame(width, height) {
     map: {
       width,
       height
+    }
+  }
+
+  function setTotalConnections(param) {
+    if (param === 'sum') {
+      state.totalConnections++
+    } else if (param === 'sub') {
+      state.totalConnections--
     }
   }
 
@@ -94,7 +103,7 @@ export default function createGame(width, height) {
       const playerAux = state.players[player]
       if (player !== playerId && playerAux.x === currPlayer.x && playerAux.y === currPlayer.y) {
         removePlayer({ id: player })
-        // notifyAll({ type: 'colision', players: [playerId, player] })
+        notifyAll({ type: 'colision', players: [playerId, player] })
       }
     }
   }
@@ -107,6 +116,7 @@ export default function createGame(width, height) {
     setState,
     subscribe,
     notifyAll,
-    configs
+    configs,
+    setTotalConnections
   }
 }
