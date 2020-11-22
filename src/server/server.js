@@ -28,7 +28,6 @@ sockets.on('connection', (socket) => {
     } else {
       console.log(`Total de ${connectionsCount} pessoas conectadas.`)
     }
-    game.setTotalConnections('sum')
   }
 
   game.addPlayer({ id: playerId })
@@ -51,7 +50,6 @@ sockets.on('connection', (socket) => {
       } else {
         console.log(`Total de ${connectionsCount} pessoas conectadas.`)
       }
-      game.setTotalConnections('sub')
     }
 
     game.removePlayer({ id: playerId })

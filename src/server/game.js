@@ -12,14 +12,6 @@ export default function createGame(width, height) {
     }
   }
 
-  function setTotalConnections(param) {
-    if (param === 'sum') {
-      state.totalConnections++
-    } else if (param === 'sub') {
-      state.totalConnections--
-    }
-  }
-
   function subscribe(observerFunction) {
     observers.push(observerFunction)
   }
@@ -50,6 +42,8 @@ export default function createGame(width, height) {
 
     state.players[id] = { x, y }
 
+    state.totalConnections++
+
     notifyAll({ type: 'add-player', id, x, y })
   }
 
@@ -58,6 +52,8 @@ export default function createGame(width, height) {
     if (state.players[id]) {
       delete state.players[id]
     }
+
+    state.totalConnections--
 
     notifyAll({ type: 'remove-player', id })
   }
@@ -116,7 +112,6 @@ export default function createGame(width, height) {
     setState,
     subscribe,
     notifyAll,
-    configs,
-    setTotalConnections
+    configs
   }
 }

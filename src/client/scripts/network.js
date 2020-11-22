@@ -15,6 +15,8 @@ export default function createNetwork(game, keyBoardListener) {
       keyBoardListener.subscribe((command) => {
         socket.emit('move-player', command)
       })
+
+      notifyAll()
     },
     config: (configs) => {
       game.setConfigs(configs)
