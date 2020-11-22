@@ -14,47 +14,50 @@ app.use(express.static('src/client'))
 
 const game = createGame(20, 20)
 game.subscribe((command) => {
-    sockets.emit(command.type, command)
+  sockets.emit(command.type, command)
 })
 
 sockets.on('connection', (socket) => {
-    const playerId = socket.id
-    const connectionsCount = Object.keys(sockets.sockets.server.engine.clients).length
-    console.log(`\n[!CONNECTED]: id-${playerId}`)
+  const playerId = socket.id
+  const connectionsCount = Object.keys(sockets.sockets.server.engine.clients).length
 
+  {
+    console.log(`\n[!CONNECTED]: id-${playerId}`)
     if (connectionsCount === 1) {
-        console.log(`Total de ${connectionsCount} pessoa conectada.`)
+      console.log(`Total de ${connectionsCount} pessoa conectada.`)
     } else {
+      console.log(`Total de ${connectionsCount} pessoas conectadas.`)
+    }
+    game.setTotalConnections('sum')
+  }
+
+  game.addPlayer({ id: playerId })
+
+  socket.emit('setup', game.state)
+  socket.emit('config', game.configs)
+
+  socket.on('move-player', (command) => {
+    command.playerId = playerId
+    command.type = 'move-player'
+
+    game.movePlayer(command)
+  })
+
+  socket.on('disconnect', () => {
+    {
+      console.log(`\n[!DISCONNECTED]: id-${playerId}`)
+      if (connectionsCount === 1) {
+        console.log(`Total de ${connectionsCount} pessoa conectada.`)
+      } else {
         console.log(`Total de ${connectionsCount} pessoas conectadas.`)
+      }
+      game.setTotalConnections('sub')
     }
 
-    game.setTotalConnections('sum')
-
-    game.addPlayer({ id: playerId })
-
-    socket.emit('setup', game.state)
-    socket.emit('config', game.configs)
-
-    socket.on('disconnect', () => {
-        console.log(`\n[!DISCONNECTED]: id-${playerId}`)
-        if (connectionsCount === 1) {
-            console.log(`Total de ${connectionsCount} pessoa conectada.`)
-        } else {
-            console.log(`Total de ${connectionsCount} pessoas conectadas.`)
-        }
-
-        game.setTotalConnections('sub')
-        game.removePlayer({ id: playerId })
-    })
-
-    socket.on('move-player', (command) => {
-        command.playerId = playerId
-        command.type = 'move-player'
-
-        game.movePlayer(command)
-    })
+    game.removePlayer({ id: playerId })
+  })
 })
 
 server.listen(process.env.PORT, () => {
-    console.log(`> Server listening port ${process.env.PORT}`)
+  console.log(`> Server listening port ${process.env.PORT}`)
 })

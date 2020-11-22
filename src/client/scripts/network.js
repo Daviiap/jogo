@@ -1,4 +1,4 @@
-export default function createNetwork(screen, game, keyBoardListener, renderScreen) {
+export default function createNetwork(game, keyBoardListener) {
   const socket = io()
 
   const observers = []
@@ -15,14 +15,9 @@ export default function createNetwork(screen, game, keyBoardListener, renderScre
       keyBoardListener.subscribe((command) => {
         socket.emit('move-player', command)
       })
-
-      renderScreen(screen, game, requestAnimationFrame)
     },
     config: (configs) => {
       game.setConfigs(configs)
-
-      screen.setAttribute('width', configs.map.width)
-      screen.setAttribute('height', configs.map.height)
     },
     setup: (state) => {
       game.setState(state)
@@ -48,9 +43,9 @@ export default function createNetwork(screen, game, keyBoardListener, renderScre
     observers.push(observerFunction)
   }
 
-  function notifyAll(event) {
+  function notifyAll(command) {
     for (const observer of observers) {
-      observer(event)
+      observer(command)
     }
   }
 

@@ -1,8 +1,8 @@
-export default function renderScreen(screen, game, requestAnimationFrame) {
-  const context = screen.getContext("2d")
+export default function renderScreen(screenEl, game, requestAnimationFrame) {
+  const context = screenEl.getContext("2d")
 
   context.fillStyle = "white"
-  context.clearRect(0, 0, screen.width, screen.height)
+  context.clearRect(0, 0, screenEl.width, screenEl.height)
 
   const gameState = game.state
 
@@ -11,6 +11,9 @@ export default function renderScreen(screen, game, requestAnimationFrame) {
     context.fillStyle = 'green'
     context.fillRect(fruit.x, fruit.y, 1, 1)
   }
+
+  screenEl.setAttribute('width', game.configs.map.width)
+  screenEl.setAttribute('height', game.configs.map.height)
 
   for (const playerId in gameState.players) {
     const player = gameState.players[playerId]
@@ -24,6 +27,6 @@ export default function renderScreen(screen, game, requestAnimationFrame) {
   }
 
   requestAnimationFrame(() => {
-    renderScreen(screen, game, requestAnimationFrame)
+    renderScreen(screenEl, game, requestAnimationFrame)
   })
 }
