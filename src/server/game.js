@@ -3,7 +3,6 @@ export default function createGame(width, height) {
     players: {},
     totalConnections: 0
   }
-  const observers = []
 
   const configs = {
     map: {
@@ -11,6 +10,8 @@ export default function createGame(width, height) {
       height
     }
   }
+
+  const observers = []
 
   function subscribe(observerFunction) {
     observers.push(observerFunction)
@@ -104,10 +105,10 @@ export default function createGame(width, height) {
     addPlayer,
     removePlayer,
     movePlayer,
-    state,
     setState,
     subscribe,
     notifyAll,
+    state,
     configs
   }
 }
