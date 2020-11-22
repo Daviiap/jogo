@@ -8,7 +8,7 @@ function createGame() {
       player1: { x: 0, y: 0 },
     },
     fruits: {
-      fruit1: { x: 10, y: 10 },
+      fruit1: { x: 10, y: 10, color: 'green' },
     },
   }
 
@@ -50,12 +50,21 @@ function createGame() {
     return
   }
 
+  function changeFruitColor(fruit) {
+    if (fruit.color === 'green') {
+      fruit.color = 'red'
+    } else {
+      fruit.color = 'green'
+    }
+  }
+
   function handleColision() {
     const player = state.players[currentPlayer]
-    for (const fruit in state.fruits) {
-      const currFruit = state.fruits[fruit]
-      if (currFruit.x === player.x && currFruit.y === player.y) {
-        delete state.fruits[fruit]
+    for (let fruit in state.fruits) {
+      fruit = state.fruits[fruit]
+      if (fruit.x === player.x && fruit.y === player.y) {
+        changeFruitColor(fruit)
+        // delete state.fruits[fruit]
       }
     }
   }
@@ -107,7 +116,7 @@ function renderScreen() {
 
   for (const fruitId in gameState.fruits) {
     const fruit = gameState.fruits[fruitId]
-    context.fillStyle = "green"
+    context.fillStyle = fruit.color
     context.fillRect(fruit.x, fruit.y, 1, 1)
   }
 
