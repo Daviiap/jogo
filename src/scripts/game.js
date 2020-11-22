@@ -1,7 +1,6 @@
 export default function createGame(width, height) {
   const state = {
     players: {},
-    fruits: {},
     map: {
       width,
       height
@@ -52,27 +51,9 @@ export default function createGame(width, height) {
     notifyAll({ type: 'remove-player', id })
   }
 
-  function addFruit(command) {
-    const { x, y, id } = command
-
-    if (state.fruits[id]) {
-      console.log('Já existe uma fruta nesse lugar!')
-      return
-    }
-
-    state.fruits[id] = { x, y }
-  }
-
-  function removeFruit(command) {
-    const { id } = command
-    if (state.fruits[id]) {
-      delete state.fruits[id]
-    }
-  }
-
   function movePlayer(command) {
     notifyAll(command)
-    
+
     const { playerId, keyPressed } = command
 
     const actions = {
@@ -105,12 +86,13 @@ export default function createGame(width, height) {
   }
 
   function handleCollision(playerId) {
-    const player = state.players[playerId]
-    for (const fruit in state.fruits) {
-      const currFruit = state.fruits[fruit]
+    const currPlayer = state.players[playerId]
 
-      if (currFruit.x === player.x && currFruit.y === player.y) {
-        removeFruit(fruit)
+    for (const player in state.players) {
+      const playerAux = state.players[player]
+      if (player !== playerId && playerAux.x === currPlayer.x && playerAux.y === currPlayer.y) {
+        // removePlayer({ id: player })
+        console.log('COLISION!')
       }
     }
   }
@@ -118,8 +100,6 @@ export default function createGame(width, height) {
   return {
     addPlayer,
     removePlayer,
-    addFruit,
-    removeFruit,
     movePlayer,
     state,
     setState,
