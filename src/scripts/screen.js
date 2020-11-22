@@ -14,7 +14,12 @@ export default function renderScreen(screen, game, requestAnimationFrame) {
 
   for (const playerId in gameState.players) {
     const player = gameState.players[playerId]
-    context.fillStyle = "black"
+
+    if (playerId === localStorage.getItem('player')) {
+      context.fillStyle = 'blue'
+    } else {
+      context.fillStyle = "black"
+    }
     context.fillRect(player.x, player.y, 1, 1)
   }
 

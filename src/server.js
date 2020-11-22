@@ -14,24 +14,31 @@ app.use(express.static('src'))
 
 const game = createGame(20, 20)
 game.subscribe((command) => {
-  sockets.emit(command.type, command)
+    sockets.emit(command.type, command)
 })
 
 sockets.on('connection', (socket) => {
-  const playerId = socket.id
-  console.log(`Player conectado com id: ${playerId}`)
+    const playerId = socket.id
+    console.log(`Player conectado com id: ${playerId}`)
 
-  game.addPlayer({ id: playerId, x: 0, y: 0 })
+    game.addPlayer({ id: playerId, x: 0, y: 0 })
 
-  socket.emit('setup', game.state)
+    socket.emit('setup', game.state)
 
-  socket.on('disconnect', () => {
-    console.log(`Player desconectado com id: ${playerId}`)
+    socket.on('disconnect', () => {
+        console.log(`Player desconectado com id: ${playerId}`)
 
-    game.removePlayer({ id: playerId })
-  })
+        game.removePlayer({ id: playerId })
+    })
+
+    socket.on('move-player', (command) => {
+        command.playerId = playerId
+        command.type = 'move-player'
+
+        game.movePlayer(command)
+    })
 })
 
 server.listen(process.env.PORT, () => {
-  console.log(`> Server listening port ${process.env.PORT}`)
+    console.log(`> Server listening port ${process.env.PORT}`)
 })

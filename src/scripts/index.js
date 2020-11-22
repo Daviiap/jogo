@@ -6,15 +6,21 @@ const screen = document.getElementById("map")
 
 const game = createGame(screen.width, screen.height)
 const keyBoardListener = createKeyboardListener(document)
-keyBoardListener.subscribe(game.movePlayer)
-
-renderScreen(screen, game, requestAnimationFrame)
 
 const socket = io()
 
 socket.on('connect', () => {
   const playerId = socket.id
+
+  keyBoardListener.setPlayerId(playerId)
+  keyBoardListener.subscribe(game.movePlayer)
+  keyBoardListener.subscribe((command) => {
+    socket.emit('move-player', command)
+  })
+
   localStorage.setItem('player', playerId)
+
+  renderScreen(screen, game, requestAnimationFrame)
 })
 
 socket.on('setup', (state) => {
@@ -27,4 +33,10 @@ socket.on('add-player', (command) => {
 
 socket.on('remove-player', (command) => {
   game.removePlayer(command)
+})
+
+socket.on('move-player', (command) => {
+  if (command.playerId !== localStorage.getItem('player')) {
+    game.movePlayer(command)
+  }
 })

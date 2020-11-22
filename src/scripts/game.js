@@ -71,6 +71,8 @@ export default function createGame(width, height) {
   }
 
   function movePlayer(command) {
+    notifyAll(command)
+    
     const { playerId, keyPressed } = command
 
     const actions = {
