@@ -4,12 +4,42 @@ const currentPlayer = "player1"
 
 function createGame() {
   const state = {
-    players: {
-      player1: { x: 0, y: 0 },
-    },
-    fruits: {
-      fruit1: { x: 10, y: 10, color: 'green' },
-    },
+    players: {},
+    fruits: {}
+  }
+
+  function addPlayer(command) {
+    const { x, y, id } = command
+
+    if (state.players[id]) {
+      console.log('Já existe um jogador com este nome!')
+      return
+    }
+
+    state.players[id] = { x, y }
+  }
+
+  function removePlayer(id) {
+    if (state.players[id]) {
+      delete state.players[id]
+    }
+  }
+
+  function addFruit(command) {
+    const { x, y, id } = command
+
+    if (state.fruits[id]) {
+      console.log('Já existe uma fruta nesse lugar!')
+      return
+    }
+
+    state.fruits[id] = { x, y }
+  }
+
+  function removeFruit(id) {
+    if (state.fruits[id]) {
+      delete state.fruits[id]
+    }
   }
 
   function movePlayer(command) {
@@ -50,28 +80,24 @@ function createGame() {
     return
   }
 
-  function changeFruitColor(fruit) {
-    if (fruit.color === 'green') {
-      fruit.color = 'red'
-    } else {
-      fruit.color = 'green'
-    }
-  }
-
   function handleColision() {
     const player = state.players[currentPlayer]
-    for (let fruit in state.fruits) {
-      fruit = state.fruits[fruit]
-      if (fruit.x === player.x && fruit.y === player.y) {
-        changeFruitColor(fruit)
-        // delete state.fruits[fruit]
+    for (const fruit in state.fruits) {
+      const currFruit = state.fruits[fruit]
+
+      if (currFruit.x === player.x && currFruit.y === player.y) {
+        removeFruit(fruit)
       }
     }
   }
 
   return {
+    addPlayer,
+    removePlayer,
+    addFruit,
+    removeFruit,
     movePlayer,
-    state,
+    state
   }
 }
 
@@ -104,7 +130,7 @@ function createKeyboardListener() {
   }
 
   return {
-    subscribe,
+    subscribe
   }
 }
 
@@ -116,7 +142,7 @@ function renderScreen() {
 
   for (const fruitId in gameState.fruits) {
     const fruit = gameState.fruits[fruitId]
-    context.fillStyle = fruit.color
+    context.fillStyle = 'green'
     context.fillRect(fruit.x, fruit.y, 1, 1)
   }
 
@@ -130,6 +156,9 @@ function renderScreen() {
 }
 
 const game = createGame()
+
+game.addPlayer({ id: currentPlayer, x: 0, y: 0 })
+game.addFruit({ x: 10, y: 8 })
 
 const keyBoardListener = createKeyboardListener()
 keyBoardListener.subscribe(game.movePlayer)
