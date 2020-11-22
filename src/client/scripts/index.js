@@ -1,4 +1,4 @@
-import createGame from './game.js'
+import createGame from './clientGame.js'
 import createKeyboardListener from './keyboardListener.js'
 import renderScreen from './screen.js'
 import createNetword from './network.js'
@@ -9,5 +9,4 @@ const game = createGame()
 const keyBoardListener = createKeyboardListener(document)
 
 const network = createNetword(screen, game, keyBoardListener, renderScreen)
-network.connect()
 network.start()

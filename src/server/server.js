@@ -3,7 +3,7 @@ import http from 'http'
 import socketio from 'socket.io'
 import dotenv from 'dotenv'
 
-import createGame from '../client/scripts/game.js'
+import createGame from './game.js'
 dotenv.config()
 
 const app = express()

@@ -1,8 +1,8 @@
 export default function createNetwork(screen, game, keyBoardListener, renderScreen) {
   const socket = io()
 
-  function connect() {
-    socket.on('connect', () => {
+  const functions = {
+    connect: () => {
       const playerId = socket.id
       localStorage.setItem('player', playerId)
 
@@ -14,38 +14,39 @@ export default function createNetwork(screen, game, keyBoardListener, renderScre
       })
 
       renderScreen(screen, game, requestAnimationFrame)
-    })
-  }
-
-  function start() {
-    socket.on('config', (configs) => {
+    },
+    config: (configs) => {
       game.setConfigs(configs)
 
       screen.setAttribute('width', configs.map.width)
       screen.setAttribute('height', configs.map.height)
-    })
-
-    socket.on('setup', (state) => {
+    },
+    setup: (state) => {
       game.setState(state)
-    })
-
-    socket.on('add-player', (command) => {
+    },
+    'add-player': (command) => {
       game.addPlayer(command)
-    })
-
-    socket.on('remove-player', (command) => {
+    },
+    'remove-player': (command) => {
       game.removePlayer(command)
-    })
-
-    socket.on('move-player', (command) => {
+    },
+    'move-player': (command) => {
       if (command.playerId !== localStorage.getItem('player')) {
         game.movePlayer(command)
       }
-    })
+    }
+  }
+
+  function start() {
+    socket.on('connect', functions.connect)
+    socket.on('config', functions.config)
+    socket.on('setup', functions.setup)
+    socket.on('add-player', functions['add-player'])
+    socket.on('remove-player', functions['remove-player'])
+    socket.on('move-player', functions['move-player'])
   }
 
   return {
-    start,
-    connect
+    start
   }
 }
