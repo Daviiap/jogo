@@ -3,14 +3,14 @@ import http from 'http'
 import socketio from 'socket.io'
 import dotenv from 'dotenv'
 
-import createGame from './scripts/game.js'
+import createGame from '../client/scripts/game.js'
 dotenv.config()
 
 const app = express()
 const server = http.createServer(app)
 const sockets = socketio(server)
 
-app.use(express.static('src'))
+app.use(express.static('src/client'))
 
 const game = createGame(20, 20)
 game.subscribe((command) => {
@@ -21,9 +21,10 @@ sockets.on('connection', (socket) => {
     const playerId = socket.id
     console.log(`Player conectado com id: ${playerId}`)
 
-    game.addPlayer({ id: playerId, x: 0, y: 0 })
+    game.addPlayer({ id: playerId })
 
     socket.emit('setup', game.state)
+    socket.emit('config', game.configs)
 
     socket.on('disconnect', () => {
         console.log(`Player desconectado com id: ${playerId}`)

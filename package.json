@@ -1,7 +1,7 @@
 {
   "name": "jogo",
   "version": "1.0.0",
-  "main": "src/server.js",
+  "main": "src/server/server.js",
   "repository": "https://github.com/Daviiap/jogo.git",
   "author": "<daviiap@outlook.com>",
   "license": "MIT",
@@ -16,7 +16,7 @@
     "nodemon": "^2.0.6"
   },
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "start": "node src/server/server.js",
+    "dev": "nodemon src/server/server.js"
   }
 }

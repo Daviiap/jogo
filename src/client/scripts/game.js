@@ -1,13 +1,19 @@
 export default function createGame(width, height) {
   const state = {
-    players: {},
+    players: {}
+  }
+  const observers = []
+
+  const configs = {
     map: {
       width,
       height
     }
   }
-  const observers = []
 
+  function setConfigs(newConfigs) {
+    Object.assign(configs, newConfigs)
+  }
 
   function subscribe(observerFunction) {
     observers.push(observerFunction)
@@ -27,9 +33,9 @@ export default function createGame(width, height) {
     const { id } = command
     let { x, y } = command
 
-    if (!x && !y) {
-      x = Math.floor(Math.random() * state.map.width)
-      y = Math.floor(Math.random() * state.map.height)
+    if (!x && !y && x !== 0 && y !== 0) {
+      x = Math.floor(Math.random() * configs.map.width)
+      y = Math.floor(Math.random() * configs.map.height)
     }
 
     if (state.players[id]) {
@@ -62,7 +68,7 @@ export default function createGame(width, height) {
           player.y--
       },
       ArrowDown: function (player) {
-        if (player.y < state.map.height - 1)
+        if (player.y < configs.map.height - 1)
           player.y++
       },
       ArrowLeft: function (player) {
@@ -71,7 +77,7 @@ export default function createGame(width, height) {
       }
       ,
       ArrowRight: function (player) {
-        if (player.x < state.map.width - 1)
+        if (player.x < configs.map.width - 1)
           player.x++
       }
     }
@@ -104,6 +110,8 @@ export default function createGame(width, height) {
     state,
     setState,
     subscribe,
-    notifyAll
+    notifyAll,
+    setConfigs,
+    configs
   }
 }
