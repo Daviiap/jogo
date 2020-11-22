@@ -87,19 +87,6 @@ export default function createGame(width, height) {
 
     if (player && action) {
       action(player)
-      handleCollision(playerId)
-    }
-  }
-
-  function handleCollision(playerId) {
-    const currPlayer = state.players[playerId]
-
-    for (const player in state.players) {
-      const playerAux = state.players[player]
-      if (player !== playerId && playerAux.x === currPlayer.x && playerAux.y === currPlayer.y) {
-        // removePlayer({ id: player })
-        console.log('COLISION!')
-      }
     }
   }
 

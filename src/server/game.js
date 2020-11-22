@@ -11,10 +11,6 @@ export default function createGame(width, height) {
     }
   }
 
-  function setConfigs(newConfigs) {
-    Object.assign(configs, newConfigs)
-  }
-
   function subscribe(observerFunction) {
     observers.push(observerFunction)
   }
@@ -97,8 +93,8 @@ export default function createGame(width, height) {
     for (const player in state.players) {
       const playerAux = state.players[player]
       if (player !== playerId && playerAux.x === currPlayer.x && playerAux.y === currPlayer.y) {
-        // removePlayer({ id: player })
-        console.log('COLISION!')
+        removePlayer({ id: player })
+        // notifyAll({ type: 'colision', players: [playerId, player] })
       }
     }
   }
@@ -111,7 +107,6 @@ export default function createGame(width, height) {
     setState,
     subscribe,
     notifyAll,
-    setConfigs,
     configs
   }
 }
