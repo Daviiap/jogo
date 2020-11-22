@@ -4,13 +4,19 @@ import renderScreen from './screen.js'
 
 const screen = document.getElementById("map")
 
-localStorage.setItem('player', 'player1')
-
 const game = createGame(screen.width, screen.height)
 const keyBoardListener = createKeyboardListener(document)
 keyBoardListener.subscribe(game.movePlayer)
 
-game.addPlayer({ id: localStorage.getItem('player'), x: 0, y: 0 })
-game.addFruit({ x: 10, y: 8 })
-
 renderScreen(screen, game, requestAnimationFrame)
+
+const socket = io()
+
+socket.on('connect', () => {
+  const playerId = socket.id
+  localStorage.setItem('player', playerId)
+})
+
+socket.on('setup', (state) => {
+  game.state = state
+})

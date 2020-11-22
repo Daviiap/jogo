@@ -5,9 +5,12 @@
   "repository": "https://github.com/Daviiap/jogo.git",
   "author": "<daviiap@outlook.com>",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "node": "^15.2.1",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
