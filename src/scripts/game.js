@@ -7,9 +7,31 @@ export default function createGame(width, height) {
       height
     }
   }
+  const observers = []
+
+
+  function subscribe(observerFunction) {
+    observers.push(observerFunction)
+  }
+
+  function notifyAll(command) {
+    for (const observerFunction of observers) {
+      observerFunction(command)
+    }
+  }
+
+  function setState(newState) {
+    Object.assign(state, newState)
+  }
 
   function addPlayer(command) {
-    const { x, y, id } = command
+    const { id } = command
+    let { x, y } = command
+
+    if (!x && !y) {
+      x = Math.floor(Math.random() * state.map.width)
+      y = Math.floor(Math.random() * state.map.height)
+    }
 
     if (state.players[id]) {
       console.log('Já existe um jogador com este nome!')
@@ -17,12 +39,17 @@ export default function createGame(width, height) {
     }
 
     state.players[id] = { x, y }
+
+    notifyAll({ type: 'add-player', id, x, y })
   }
 
-  function removePlayer(id) {
+  function removePlayer(command) {
+    const { id } = command
     if (state.players[id]) {
       delete state.players[id]
     }
+
+    notifyAll({ type: 'remove-player', id })
   }
 
   function addFruit(command) {
@@ -36,7 +63,8 @@ export default function createGame(width, height) {
     state.fruits[id] = { x, y }
   }
 
-  function removeFruit(id) {
+  function removeFruit(command) {
+    const { id } = command
     if (state.fruits[id]) {
       delete state.fruits[id]
     }
@@ -72,8 +100,6 @@ export default function createGame(width, height) {
       action(player)
       handleCollision(playerId)
     }
-
-    return
   }
 
   function handleCollision(playerId) {
@@ -93,6 +119,9 @@ export default function createGame(width, height) {
     addFruit,
     removeFruit,
     movePlayer,
-    state
+    state,
+    setState,
+    subscribe,
+    notifyAll
   }
 }

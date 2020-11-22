@@ -18,5 +18,13 @@ socket.on('connect', () => {
 })
 
 socket.on('setup', (state) => {
-  game.state = state
+  game.setState(state)
+})
+
+socket.on('add-player', (command) => {
+  game.addPlayer(command)
+})
+
+socket.on('remove-player', (command) => {
+  game.removePlayer(command)
 })
