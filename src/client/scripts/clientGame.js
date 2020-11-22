@@ -45,8 +45,6 @@ export default function createGame(width, height) {
     }
 
     state.players[id] = { x, y }
-
-    state.totalConnections++
   }
 
   function removePlayer(command) {
@@ -54,8 +52,6 @@ export default function createGame(width, height) {
     if (state.players[id]) {
       delete state.players[id]
     }
-
-    state.totalConnections--
   }
 
   function movePlayer(command) {
