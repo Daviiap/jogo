@@ -1,9 +1,9 @@
 #map {
-  border: 10px solid #CCC ;
+  border: 10px solid #ccc;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   image-rendering: -moz-crisp-edges;
   padding: 2px;
-  width: 600px;
-  height: 600px;
+  width: 500px;
+  height: 500px;
 }

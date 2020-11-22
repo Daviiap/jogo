@@ -3,42 +3,6 @@ const context = screen.getContext("2d")
 const currentPlayer = "player1"
 
 function createGame() {
-  const actions = {
-    ArrowUp: function (player) {
-      if (player.y > 0) {
-        player.y--
-      }
-    },
-    ArrowDown: function (player) {
-      if (player.y < 19) {
-        player.y++
-      }
-    },
-    ArrowLeft: function (player) {
-      if (player.x > 0) {
-        player.x--
-      }
-    },
-    ArrowRight: function (player) {
-      if (player.x < 19) {
-        player.x++
-      }
-    },
-  }
-
-  function movePlayer(command) {
-    const { playerId, keyPressed } = command
-
-    const player = state.players[playerId]
-    const action = actions[keyPressed]
-
-    if (player && action) {
-      action(player)
-    }
-
-    return
-  }
-
   const state = {
     players: {
       player1: { x: 0, y: 0 },
@@ -48,12 +12,59 @@ function createGame() {
     },
   }
 
+  function movePlayer(command) {
+    const { playerId, keyPressed } = command
+
+    const actions = {
+      ArrowUp: function (player) {
+        player.y > 0 ?
+          player.y-- :
+          {}
+      },
+      ArrowDown: function (player) {
+        player.y < 19 ?
+          player.y++ :
+          {}
+      },
+      ArrowLeft: function (player) {
+        player.x > 0 ?
+          player.x-- :
+          {}
+      }
+      ,
+      ArrowRight: function (player) {
+        player.x < 19 ?
+          player.x++ :
+          {}
+      }
+    }
+
+    const player = state.players[playerId]
+    const action = actions[keyPressed]
+
+    if (player && action) {
+      action(player)
+      handleColision()
+    }
+
+    return
+  }
+
+  function handleColision() {
+    const player = state.players[currentPlayer]
+    for (const fruit in state.fruits) {
+      const currFruit = state.fruits[fruit]
+      if (currFruit.x === player.x && currFruit.y === player.y) {
+        delete state.fruits[fruit]
+      }
+    }
+  }
+
   return {
     movePlayer,
     state,
   }
 }
-const game = createGame()
 
 function createKeyboardListener() {
   const state = {
@@ -87,10 +98,6 @@ function createKeyboardListener() {
     subscribe,
   }
 }
-const keyBoardListener = createKeyboardListener()
-keyBoardListener.subscribe(game.movePlayer)
-
-renderScreen()
 
 function renderScreen() {
   context.fillStyle = "white"
@@ -112,3 +119,10 @@ function renderScreen() {
 
   requestAnimationFrame(renderScreen)
 }
+
+const game = createGame()
+
+const keyBoardListener = createKeyboardListener()
+keyBoardListener.subscribe(game.movePlayer)
+
+renderScreen()
