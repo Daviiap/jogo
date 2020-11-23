@@ -44,7 +44,6 @@ export default function createNetwork(game, keyBoardListener) {
     colision: (command) => {
       const { cashew, player } = command
       game.removeCashew({ id: cashew })
-      game.incrementPlayerPoints({ id: player })
     }
   }
 

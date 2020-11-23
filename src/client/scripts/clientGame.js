@@ -124,7 +124,6 @@ export default function createGame(width, height) {
     subscribe,
     notifyAll,
     setConfigs,
-    incrementPlayerPoints,
     state,
     configs
   }
