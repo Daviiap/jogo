@@ -59,8 +59,6 @@ export default function createGame(width, height) {
     if (state.cashews[id]) {
       delete state.cashews[id]
     }
-
-    notifyAll({ type: 'remove-cashew', id })
   }
 
   function movePlayer(command) {
@@ -93,6 +91,20 @@ export default function createGame(width, height) {
 
     if (player && action) {
       action(player)
+      handleCollision(playerId)
+    }
+  }
+
+  function handleCollision(playerId) {
+    const player = state.players[playerId]
+
+    for (const cashewId in state.cashews) {
+      const cashew = state.cashews[cashewId]
+      if (cashew.x === player.x && cashew.y === player.y) {
+        removeCashew({ id: cashewId })
+        incrementPlayerPoints({ id: playerId })
+        notifyAll({ type: 'colision', player: playerId, cashew: cashewId })
+      }
     }
   }
 
