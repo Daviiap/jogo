@@ -14,7 +14,7 @@ const sockets = socketio(server)
 
 app.use(express.static('src/client'))
 
-const game = createGame(10, 10)
+const game = createGame(200, 200)
 
 game.subscribe((command) => {
   sockets.emit(command.type, command)

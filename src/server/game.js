@@ -27,13 +27,19 @@ export default function createGame(width, height) {
     Object.assign(state, newState)
   }
 
+  function myRandom(min, max, multiple) {
+    return Math.round(Math.random() * (max - min) / multiple) * multiple + min;
+  }
+
   function addPlayer(command) {
     const { id } = command
     let { x, y } = command
 
     if (!x && !y && x !== 0 && y !== 0) {
-      x = Math.floor(Math.random() * configs.map.width)
-      y = Math.floor(Math.random() * configs.map.height)
+      x = myRandom(0, 200, 20)
+      y = myRandom(0, 200, 20)
+      // x = Math.floor(Math.random() * configs.map.width)
+      // y = Math.floor(Math.random() * configs.map.height)
     }
 
     if (state.players[id]) {
@@ -58,8 +64,10 @@ export default function createGame(width, height) {
   function addCashew(command) {
     const { id } = command
 
-    const x = Math.floor(Math.random() * configs.map.width)
-    const y = Math.floor(Math.random() * configs.map.height)
+    const x = myRandom(0, 200, 20)
+    const y = myRandom(0, 200, 20)
+    // const x = Math.floor(Math.random() * configs.map.width)
+    // const y = Math.floor(Math.random() * configs.map.height)
 
     state.cashews[id] = { x, y }
 
@@ -83,20 +91,20 @@ export default function createGame(width, height) {
     const actions = {
       ArrowUp: function (player) {
         if (player.y > 0)
-          player.y--
+          player.y -= 20
       },
       ArrowDown: function (player) {
-        if (player.y < configs.map.height - 1)
-          player.y++
+        if (player.y < configs.map.height - 21)
+          player.y += 20
       },
       ArrowLeft: function (player) {
         if (player.x > 0)
-          player.x--
+          player.x -= 20
       }
       ,
       ArrowRight: function (player) {
-        if (player.x < configs.map.width - 1)
-          player.x++
+        if (player.x < configs.map.width - 21)
+          player.x += 20
       }
     }
 
