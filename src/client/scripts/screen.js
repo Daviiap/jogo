@@ -1,4 +1,4 @@
-export default function createScreen(document, screenEl, imgEl, ulEl, game, requestAnimationFrame) {
+export default function createScreen(document, screenEl, ulEl, game, requestAnimationFrame) {
   const context = screenEl.getContext("2d")
 
   function render() {
@@ -44,7 +44,7 @@ export default function createScreen(document, screenEl, imgEl, ulEl, game, requ
     }
 
     requestAnimationFrame(() => {
-      render(document, screenEl, imgEl, ulEl, game, requestAnimationFrame)
+      render(document, screenEl, ulEl, game, requestAnimationFrame)
     })
   }
 
