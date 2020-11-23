@@ -35,13 +35,12 @@ export default function createScreen(document, screenEl, imgEl, ulEl, game, requ
       context.fillRect(player.x, player.y, 20, 20)
     }
 
-
+    const image = new Image()
+    image.src = '../assets/cashew.jpg'
     for (const cashewId in gameState.cashews) {
       const cashew = gameState.cashews[cashewId]
 
-      // context.fillStyle = '#F0E68C'
-      // context.fillRect(cashew.x, cashew.y, 1, 1)
-      context.drawImage(imgEl, cashew.x, cashew.y, 20, 20)
+      context.drawImage(image, cashew.x, cashew.y, 20, 20)
     }
 
     requestAnimationFrame(() => {

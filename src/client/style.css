@@ -30,12 +30,12 @@ ul {
   width: 500px;
 }
 
+ul:first-child  p{
+  color: yellow;
+}
+
 li {
   display: flex;
   justify-content: space-between;
   width: 80%;
-}
-
-li:first-child {
-  margin-right: 100px;
 }
