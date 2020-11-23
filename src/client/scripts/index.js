@@ -1,4 +1,4 @@
-import createGame from './clientGame.js'
+import createGame from './game.js'
 import createKeyboardListener from './keyboardListener.js'
 import createScreen from './screen.js'
 import createNetwork from './network.js'
