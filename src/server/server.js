@@ -6,6 +6,7 @@ dotenv.config()
 
 import createGame from './game.js'
 import logService from './services/log.service.js'
+logService.clear()
 
 const app = express()
 const server = http.createServer(app)
@@ -23,7 +24,7 @@ sockets.on('connection', (socket) => {
   const playerId = socket.id
   game.addPlayer({ id: playerId })
 
-  logService.connected(playerId)
+  logService.success(`Player successfull connected with id ${playerId}.`)
 
   socket.emit('setup', game.state)
   socket.emit('config', game.configs)
@@ -36,10 +37,12 @@ sockets.on('connection', (socket) => {
   })
 
   socket.on('disconnect', () => {
+    logService.warning(`Player with id ${playerId} disconnected.`)
+
     game.removePlayer({ id: playerId })
   })
 })
 
 server.listen(process.env.PORT, () => {
-  console.log(`> Server listening port ${process.env.PORT}`)
+  logService.info(`Server listening port ${process.env.PORT}...`)
 })

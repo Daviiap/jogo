@@ -1,24 +1,27 @@
-const connected = (playerId, connectionsCount) => {
-  console.log(`\n[!CONNECTED]: id-${playerId}`)
-
-  if (connectionsCount === 1) {
-    console.log(`Total de ${connectionsCount} pessoa conectada.`)
-  } else {
-    console.log(`Total de ${connectionsCount} pessoas conectadas.`)
-  }
+const success = (message) => {
+  console.log(`\x1b[40m\x1b[32m[SUCCESS]\x1b[37m ${message}\x1b[0m`)
 }
 
-const disconnected = (playerId, connectionsCount) => {
-  console.log(`\n[!DISCONNECTED]: id-${playerId}`)
+const warning = (message) => {
+  console.log(`\x1b[40m\x1b[33m[WARN]\x1b[37m ${message}\x1b[0m`)
+}
 
-  if (connectionsCount === 1) {
-    console.log(`Total de ${connectionsCount} pessoa conectada.`)
-  } else {
-    console.log(`Total de ${connectionsCount} pessoas conectadas.`)
-  }
+const error = (message) => {
+  console.log(`\x1b[40m\x1b[31m[ERROR]\x1b[37m ${message}\x1b[0m`)
+}
+
+const info = (message) => {
+  console.log(`\x1b[37m\x1b[40m[INFO] ${message}\x1b[0m`)
+}
+
+const clear = () => {
+  console.clear()
 }
 
 export default {
-  connected,
-  disconnected
+  success,
+  warning,
+  error,
+  info,
+  clear
 }
