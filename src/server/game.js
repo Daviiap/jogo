@@ -1,7 +1,7 @@
 export default function createGame(width, height) {
   const state = {
     players: {},
-    totalConnections: 0
+    cashews: {}
   }
 
   const configs = {
@@ -41,7 +41,7 @@ export default function createGame(width, height) {
       return
     }
 
-    state.players[id] = { x, y }
+    state.players[id] = { x, y, points: 0 }
 
     notifyAll({ type: 'add-player', id, x, y })
   }
@@ -53,6 +53,26 @@ export default function createGame(width, height) {
     }
 
     notifyAll({ type: 'remove-player', id })
+  }
+
+  function addCashew(command) {
+    const { id } = command
+
+    const x = Math.floor(Math.random() * configs.map.width)
+    const y = Math.floor(Math.random() * configs.map.height)
+
+    state.cashews[id] = { x, y }
+
+    notifyAll({ type: 'cashew', id, x, y })
+  }
+
+  function removeCashew(command) {
+    const { id } = command
+    if (state.cashews[id]) {
+      delete state.cashews[id]
+    }
+
+    notifyAll({ type: 'remove-cashew', id })
   }
 
   function movePlayer(command) {
@@ -90,24 +110,34 @@ export default function createGame(width, height) {
   }
 
   function handleCollision(playerId) {
-    const currPlayer = state.players[playerId]
+    const player = state.players[playerId]
 
-    for (const player in state.players) {
-      const playerAux = state.players[player]
-      if (player !== playerId && playerAux.x === currPlayer.x && playerAux.y === currPlayer.y) {
-        removePlayer({ id: player })
-        notifyAll({ type: 'colision', players: [playerId, player] })
+    for (const cashewId in state.cashews) {
+      const cashew = state.cashews[cashewId]
+      if (cashew.x === player.x && cashew.y === player.y) {
+        removeCashew({ id: cashewId })
+        incrementPlayerPoints({ id: playerId })
+        notifyAll({ type: 'colision', player: playerId, cashew: cashewId })
       }
     }
+  }
+
+  function incrementPlayerPoints(command) {
+    const { id } = command
+
+    state.players[id]['points']++
   }
 
   return {
     addPlayer,
     removePlayer,
+    addCashew,
+    removeCashew,
     movePlayer,
     setState,
     subscribe,
     notifyAll,
+    handleCollision,
     state,
     configs
   }

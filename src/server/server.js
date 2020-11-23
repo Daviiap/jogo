@@ -20,6 +20,8 @@ game.subscribe((command) => {
   sockets.emit(command.type, command)
 })
 
+game.addCashew({ id: 1 })
+
 sockets.on('connection', (socket) => {
   const playerId = socket.id
   game.addPlayer({ id: playerId })

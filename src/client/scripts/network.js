@@ -30,14 +30,21 @@ export default function createNetwork(game, keyBoardListener) {
     'remove-player': (command) => {
       game.removePlayer(command)
     },
+    'add-cashew': (command) => {
+      game.addCashew(command)
+    },
+    'remove-cashew': (command) => {
+      game.removeCashew(command)
+    },
     'move-player': (command) => {
       if (command.playerId !== localStorage.getItem('player')) {
         game.movePlayer(command)
       }
     },
     colision: (command) => {
-      const { player } = command
-      game.removePlayer({ id: player })
+      const { cashew, player } = command
+      game.removeCashew({ id: cashew })
+      game.incrementPlayerPoints({ id: player })
     }
   }
 
@@ -56,6 +63,8 @@ export default function createNetwork(game, keyBoardListener) {
     socket.on('config', functions.config)
     socket.on('setup', functions.setup)
     socket.on('add-player', functions['add-player'])
+    socket.on('add-cashew', functions['add-cashew'])
+    socket.on('remove-cashew', functions['remove-cashew'])
     socket.on('remove-player', functions['remove-player'])
     socket.on('move-player', functions['move-player'])
     socket.on('colision', functions.colision)

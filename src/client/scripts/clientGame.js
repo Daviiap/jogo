@@ -1,7 +1,7 @@
 export default function createGame(width, height) {
   const state = {
     players: {},
-    totalConnections: 0
+    cashews: {}
   }
   const observers = []
 
@@ -44,7 +44,7 @@ export default function createGame(width, height) {
       return
     }
 
-    state.players[id] = { x, y }
+    state.players[id] = { x, y, points: 0 }
   }
 
   function removePlayer(command) {
@@ -52,6 +52,26 @@ export default function createGame(width, height) {
     if (state.players[id]) {
       delete state.players[id]
     }
+  }
+
+  function addCashew(command) {
+    const { id } = command
+
+    const x = Math.floor(Math.random() * configs.map.width)
+    const y = Math.floor(Math.random() * configs.map.height)
+
+    state.cashews[id] = { x, y }
+
+    notifyAll({ type: 'cashew', id, x, y })
+  }
+
+  function removeCashew(command) {
+    const { id } = command
+    if (state.cashews[id]) {
+      delete state.cashews[id]
+    }
+
+    notifyAll({ type: 'remove-cashew', id })
   }
 
   function movePlayer(command) {
@@ -87,15 +107,24 @@ export default function createGame(width, height) {
     }
   }
 
+  function incrementPlayerPoints(command) {
+    const { id } = command
+
+    state.players[id]['points']++
+  }
+
   return {
     addPlayer,
     removePlayer,
+    addCashew,
+    removeCashew,
     movePlayer,
-    state,
     setState,
     subscribe,
     notifyAll,
     setConfigs,
+    incrementPlayerPoints,
+    state,
     configs
   }
 }
