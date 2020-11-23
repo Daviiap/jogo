@@ -1,4 +1,4 @@
-export default function createScreen(screenEl, imgEl, game, requestAnimationFrame) {
+export default function createScreen(document, screenEl, imgEl, ulEl, game, requestAnimationFrame) {
   const context = screenEl.getContext("2d")
 
   function render() {
@@ -10,8 +10,22 @@ export default function createScreen(screenEl, imgEl, game, requestAnimationFram
     screenEl.setAttribute('width', game.configs.map.width)
     screenEl.setAttribute('height', game.configs.map.height)
 
+    ulEl.innerHTML = ''
+
     for (const playerId in gameState.players) {
       const player = gameState.players[playerId]
+
+      const liEl = document.createElement('li')
+      const playerName = document.createElement('p')
+      const playerNameText = document.createTextNode(playerId)
+      playerName.appendChild(playerNameText)
+      const playerPoints = document.createElement('p')
+      const playerPointsText = document.createTextNode(String(player.points))
+      playerPoints.appendChild(playerPointsText)
+
+      liEl.append(playerName, playerPoints)
+
+      ulEl.appendChild(liEl)
 
       if (playerId === localStorage.getItem('player')) {
         context.fillStyle = '#000000'
@@ -20,6 +34,7 @@ export default function createScreen(screenEl, imgEl, game, requestAnimationFram
       }
       context.fillRect(player.x, player.y, 20, 20)
     }
+
 
     for (const cashewId in gameState.cashews) {
       const cashew = gameState.cashews[cashewId]
@@ -30,7 +45,7 @@ export default function createScreen(screenEl, imgEl, game, requestAnimationFram
     }
 
     requestAnimationFrame(() => {
-      render(screenEl, imgEl, game, requestAnimationFrame)
+      render(document, screenEl, imgEl, ulEl, game, requestAnimationFrame)
     })
   }
 

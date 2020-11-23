@@ -7,6 +7,8 @@ h1 {
   flex-direction: column;
   align-items: center;
   padding: 10px;
+
+  border: 1px, solid black;
 }
 
 #map {
@@ -18,4 +20,22 @@ h1 {
   padding: 2px;
   width: 500px;
   height: 500px;
+}
+
+#score-list {
+  border: 1px, black, solid;
+}
+
+ul {
+  width: 500px;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+
+li:first-child {
+  margin-right: 100px;
 }
