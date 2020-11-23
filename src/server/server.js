@@ -21,11 +21,12 @@ game.subscribe((command) => {
 })
 
 game.addCashew()
-// game.start()
 
 sockets.on('connection', (socket) => {
   const playerId = socket.id
-  game.addPlayer({ id: playerId })
+  socket.on('setName', (name) => {
+    game.addPlayer({ id: playerId, name: name })
+  })
 
   logService.success(`Player successfull connected with id ${playerId}.`)
 

@@ -6,8 +6,10 @@ export default function createNetwork(game, keyBoardListener) {
   const functions = {
     connect: () => {
       const playerId = socket.id
+      const userName = window.prompt('Digite seu nickname', playerId)
 
       localStorage.setItem('player', playerId)
+      socket.emit('setName', userName)
 
       keyBoardListener.clearObservers()
       keyBoardListener.setPlayerId(playerId)
@@ -42,7 +44,7 @@ export default function createNetwork(game, keyBoardListener) {
       }
     },
     colision: (command) => {
-      const { cashew, player } = command
+      const { cashew } = command
       game.removeCashew({ id: cashew })
     }
   }

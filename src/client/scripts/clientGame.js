@@ -31,14 +31,14 @@ export default function createGame(width, height) {
   }
 
   function addPlayer(command) {
-    const { id, x, y } = command
+    const { id, name, x, y } = command
 
     if (state.players[id]) {
       console.log('Já existe um jogador com este nome!')
       return
     }
 
-    state.players[id] = { x, y, points: 0 }
+    state.players[id] = { x, y, name, points: 0 }
   }
 
   function removePlayer(command) {

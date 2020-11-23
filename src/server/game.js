@@ -32,7 +32,7 @@ export default function createGame(width, height) {
   }
 
   function addPlayer(command) {
-    const { id } = command
+    const { id, name } = command
     let { x, y } = command
 
     if (!x && !y && x !== 0 && y !== 0) {
@@ -45,9 +45,9 @@ export default function createGame(width, height) {
       return
     }
 
-    state.players[id] = { x, y, points: 0 }
+    state.players[id] = { x, y, name, points: 0 }
 
-    notifyAll({ type: 'add-player', id, x, y })
+    notifyAll({ type: 'add-player', id, name, x, y })
   }
 
   function removePlayer(command) {

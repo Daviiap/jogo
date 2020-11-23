@@ -17,7 +17,7 @@ export default function createScreen(document, screenEl, imgEl, ulEl, game, requ
 
       const liEl = document.createElement('li')
       const playerName = document.createElement('p')
-      const playerNameText = document.createTextNode(playerId)
+      const playerNameText = document.createTextNode(player.name)
       playerName.appendChild(playerNameText)
       const playerPoints = document.createElement('p')
       const playerPointsText = document.createTextNode(String(player.points))
