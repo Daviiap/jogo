@@ -52,8 +52,6 @@ export default function createGame(width, height) {
     const { id, x, y } = command
 
     state.cashews[id] = { x, y }
-
-    notifyAll({ type: 'cashew', id, x, y })
   }
 
   function removeCashew(command) {

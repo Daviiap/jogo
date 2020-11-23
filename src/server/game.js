@@ -66,7 +66,7 @@ export default function createGame(width, height) {
 
     state.cashews[id] = { x, y }
 
-    notifyAll({ type: 'cashew', id, x, y })
+    notifyAll({ type: 'add-cashew', id, x, y })
   }
 
   function removeCashew(command) {
@@ -76,6 +76,8 @@ export default function createGame(width, height) {
     }
 
     notifyAll({ type: 'remove-cashew', id })
+
+    addCashew()
   }
 
   function movePlayer(command) {
@@ -132,7 +134,7 @@ export default function createGame(width, height) {
   }
 
   function start() {
-
+    setInterval(addCashew, 2000)
   }
 
   return {
