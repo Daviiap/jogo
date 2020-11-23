@@ -12,6 +12,8 @@ export default function createScreen(document, screenEl, ulEl, game, requestAnim
 
     ulEl.innerHTML = ''
 
+    const playerImage = new Image()
+    playerImage.src = '../assets/personagem.jpg'
     for (const playerId in gameState.players) {
       const player = gameState.players[playerId]
 
@@ -28,19 +30,19 @@ export default function createScreen(document, screenEl, ulEl, game, requestAnim
       ulEl.appendChild(liEl)
 
       if (playerId === localStorage.getItem('player')) {
-        context.fillStyle = '#000000'
+        context.drawImage(playerImage, player.x, player.y, 20, 20)
       } else {
         context.fillStyle = "#AAAAAA"
+        context.fillRect(player.x, player.y, 20, 20)
       }
-      context.fillRect(player.x, player.y, 20, 20)
     }
 
-    const image = new Image()
-    image.src = '../assets/cashew.jpg'
+    const cashewImage = new Image()
+    cashewImage.src = '../assets/cashew.jpg'
     for (const cashewId in gameState.cashews) {
       const cashew = gameState.cashews[cashewId]
 
-      context.drawImage(image, cashew.x, cashew.y, 20, 20)
+      context.drawImage(cashewImage, cashew.x, cashew.y, 20, 20)
     }
 
     requestAnimationFrame(() => {
