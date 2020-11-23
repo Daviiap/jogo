@@ -30,18 +30,8 @@ export default function createGame(width, height) {
     Object.assign(state, newState)
   }
 
-  function myRandom(min, max, multiple) {
-    return Math.round(Math.random() * (max - min) / multiple) * multiple + min;
-  }
-
   function addPlayer(command) {
-    const { id } = command
-    let { x, y } = command
-
-    if (!x && !y && x !== 0 && y !== 0) {
-      x = myRandom(0, 200, 20)
-      y = myRandom(0, 200, 20)
-    }
+    const { id, x, y } = command
 
     if (state.players[id]) {
       console.log('Já existe um jogador com este nome!')
@@ -59,10 +49,7 @@ export default function createGame(width, height) {
   }
 
   function addCashew(command) {
-    const { id } = command
-
-    const x = myRandom(0, 200, 20)
-    const y = myRandom(0, 200, 20)
+    const { id, x, y } = command
 
     state.cashews[id] = { x, y }
 

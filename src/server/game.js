@@ -36,10 +36,8 @@ export default function createGame(width, height) {
     let { x, y } = command
 
     if (!x && !y && x !== 0 && y !== 0) {
-      x = myRandom(0, 200, 20)
-      y = myRandom(0, 200, 20)
-      // x = Math.floor(Math.random() * configs.map.width)
-      // y = Math.floor(Math.random() * configs.map.height)
+      x = myRandom(0, configs.map.width, 20)
+      y = myRandom(0, configs.map.height, 20)
     }
 
     if (state.players[id]) {
@@ -61,13 +59,10 @@ export default function createGame(width, height) {
     notifyAll({ type: 'remove-player', id })
   }
 
-  function addCashew(command) {
-    const { id } = command
-
-    const x = myRandom(0, 200, 20)
-    const y = myRandom(0, 200, 20)
-    // const x = Math.floor(Math.random() * configs.map.width)
-    // const y = Math.floor(Math.random() * configs.map.height)
+  function addCashew() {
+    const id = Math.floor(Math.random() * 1000)
+    const x = myRandom(0, configs.map.width - 20, 20)
+    const y = myRandom(0, configs.map.height - 20, 20)
 
     state.cashews[id] = { x, y }
 
@@ -136,6 +131,10 @@ export default function createGame(width, height) {
     state.players[id]['points']++
   }
 
+  function start() {
+
+  }
+
   return {
     addPlayer,
     removePlayer,
@@ -146,6 +145,7 @@ export default function createGame(width, height) {
     subscribe,
     notifyAll,
     handleCollision,
+    start,
     state,
     configs
   }
