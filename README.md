@@ -18,4 +18,4 @@ Por fim é só rodar o jogo executando `yarn dev` para executar o modo de desenv
 
 ou `yarn start` para rodar com o node.
 
-![Playing](./assets/play.gif)
+![PlayingImage](./assets/playing.gif)
