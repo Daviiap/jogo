@@ -13,7 +13,7 @@ export default function createScreen(document, screenEl, ulEl, game, requestAnim
     ulEl.innerHTML = ''
 
     const playerImage = new Image()
-    playerImage.src = '../assets/personagem.jpg'
+    playerImage.src = '../assets/personagem(5).jpg'
     for (const playerId in gameState.players) {
       const player = gameState.players[playerId]
 
