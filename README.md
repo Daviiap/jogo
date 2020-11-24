@@ -8,7 +8,7 @@ Todavia, se divirta clicando [aqui](http://j-o.herokuapp.com/) e jogando,
 
 ou fique a vontade para baixar o repositório e fazer suas próprias alterações!
 
-`## Como rodar o projeto:`
+## `Como rodar o projeto:`
 
 Primeiro, instale as dependências executando `yarn`;
 
