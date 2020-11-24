@@ -1,6 +1,6 @@
-# KJR: A CAÇA AOS CAJUS
+# KJR: A CAÇA AOS CAJUS (JOGO ONLINE)
 
-Este jogo foi desenvolvido com o intuito de estudar um pouco sobre desenvolvimento de jogos e padrões de projetos.
+Este jogo foi desenvolvido com o intuito de estudar um pouco sobre desenvolvimento de jogos e padrões de projeto, além de me divertir jogando online com meus amigos.
 
 Talvez você encontre alguns bugs e alguns códigos mal otimizados pois ele foi desenvolvido em um final de semana...
 
